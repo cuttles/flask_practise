@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
+    <title>运维自动化</title>
+    <base target="_self">
+    <meta name="description" content="">
+    <!-- lib css files -->
+    <link rel="stylesheet" href={{ url_for('static',filename="src/css/lib/bootstrap_3.3.6.min.css") }}>
+
+    <!-- app css files -->
+    <link rel="stylesheet" href={{ url_for('static',filename="src/css/main.css")}}>
+    <link rel="stylesheet" href={{ url_for('static',filename="src/css/mod/header.css")}}>
+    
+    <!-- app icon -->
+    <link rel="shortcut icon" href={{ url_for('static',filename="favicon.ico")}}>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Modal s -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header dm-modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title fs16" id="myModalLabel">编辑操作</h4>
+                  </div>
+                  <div class="modal-body">
+                    <!-- add your content here -->
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="dbSerial" class="col-lg-3 control-label">目标名称：</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="dbSerial" placeholder="目标名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbStatus" class="col-lg-3 control-label">目标状态：</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="dbStatus" placeholder="目标状态">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbIp" class="col-lg-3 control-label">地址：</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="dbIp" placeholder="地址">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbSystem" class="col-lg-3 control-label">系统类型：</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="dbSystem" placeholder="系统类型">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbType" class="col-lg-3 control-label">DB类型：</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="dbType" placeholder="DB类型">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbNode" class="col-lg-3 control-label">节点编号：</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="dbNode" placeholder="节点编号">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dbAlarm" class="col-lg-3 control-label">告警：</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="dbAlarm" placeholder="数据库告警">
+                            </div>
+                        </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <!-- Modal e -->
+            <!-- confirm s -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title fs16">删除操作</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>是否确定删除本条记录？</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- confirm e -->
+
+            <!-- header s --> 
+            <div class="header">
+                <div class="navbar navbar-inverse dm-header" role="navigation"> 
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".js-navbar-collapse">
+                            <span class="sr-only">导航</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="#"><img class="pd15 pdr50" src={{ url_for('static',filename="/src/images/logo.png")}} /> </a>
+                    </div>
+                    <div class="collapse navbar-collapse js-navbar-collapse">        
+                        <ul class="nav navbar-nav navbar-left">                
+                            <li class="active"><a href="#">目标管理</a></li>
+                            <li><a href="#">自动部署</a></li>
+                            <li><a href="#">配置管理</a></li>
+                            <li><a href="#">监控管理</a></li>
+                            <li><a href="#">PAAS管理</a></li>
+                            <li><a href="#">DBAAS管理</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">            
+                            <li><a href="login.html" role="button" class="fs12"><i class="icon ico-header-login"></i>登录</a></li>
+                            <li><a role="button" class="fs12"><i class="icon ico-header-password"></i>修改密码</a></li>
+                            <li><a href="login.html" role="button" class="fs12"><i class="icon ico-header-logout"></i>安全退出</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- header e --> 
+            <!-- main content s -->
+            <div class="col-lg-12 main">
+                <!-- form s -->
+                    <div class="col-lg-4 text-left mgb10">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="请输入查询条件">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">查询</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 text-right">
+                    <a role="button" class="btn btn-sm btn-primary j-add"><img class="mgr10" src={{ url_for('static',filename="src/images/ico-insert.png")}}>新增</a>
+                </div>
+                <!-- form e -->
+                <!-- table s -->
+                <div class="col-lg-12 table-responsive">
+                    <table class="table table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="J_selectAllCheckBox" onclick="return selectBox();"></th>
+                                <th>目标名称</th>
+                                <th>目标状态</th>
+                                <th>地址</th>
+                                <th>系统类型</th>
+                                <th>DB类型</th>
+                                <th>节点编号</th>
+                                <th>告警</th>
+                                <th class="text-center" style="width:200px;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for post in posts %}
+                            <tr>
+                                <td><input type="checkbox" name="id" value={{ post }}></td>
+                                <td>{{ post.DB_name }}</td>
+                                <td>{{ post.status }}</td>
+                                <td>{{ post.IP }}</td>
+                                <td>{{ post.OS }}</td>
+                                <td>{{ post.type }}</td>
+                                <td>{{ post.nodes }}</td>
+                                <td>{{ post.waring }}</td>
+                                <td class="text-center">
+                                    <a role="button" class="btn btn-info btn-sm j-edit">编辑</a>
+                                    <a role="button" class="btn btn-warning btn-sm j-del">删除</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- table e -->
+                <!-- pagination s -->
+                <div id="page">
+                    <a href="{{ url_for('list',page=1) }}">首页</a>
+                    {% if list[0] > 1 %}
+                    <span>..</span>
+                    {% endif %}
+                    {% for i in list %}
+                        {% if i == page %}
+                            <strong>{{ i }}</strong>
+                        {% else %}
+                            <a href="{{ url_for('list',page=i) }}">{{ i }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if list[-1] < pages %}
+                        <span>..</span>
+                    {% endif %}
+                    <a href="{{ url_for('list',page=pages) }}">尾页</a>
+                </div>
+                <!-- pagination e -->
+            </div>
+            <!-- main content e -->
+            
+            <!-- footer s -->
+            <div class="col-lg-12 footer">
+                <p class="text-center"> 版权所有 杭州美创科技有限公司 Copyright 2005-2016,All rights reserverd.  浙ICP备 09009762号-1 </p>
+            </div> 
+            <!-- footer s --> 
+        </div>
+    </div>
+
+    <!-- lib js files -->
+    <script src={{ url_for('static',filename="src/js/lib/jquery_1.11.3.min.js")}}></script>
+    <script src={{ url_for('static',filename="src/js/lib/bootstrap_3.3.6.min.js")}}></script>
+    
+    <!-- pages js files -->
+    <script src={{ url_for('static',filename="src/js/page/index.js")}}></script>
+
+</body>
+
+</html>
