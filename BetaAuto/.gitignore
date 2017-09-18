@@ -1,0 +1,12 @@
+*.pyc
+*.log
+*.sqlite
+.tox
+.idea
+.vagrant
+.venv
+.python-version
+instance
+tests
+migrations
+coverage
